@@ -138,7 +138,7 @@ create table habr_app.user_article_tag
     "name" varchar(90) not null,
     user_id int8 references habr_app."user"(id) not null,
     description text,
-    UNIQUE ("name", user_id)
+    unique ("name", user_id)
 );
 
 create table habr_app.user_article_tags_to_articles
@@ -146,10 +146,28 @@ create table habr_app.user_article_tags_to_articles
     tag_id int8 references habr_app.user_article_tag(id) not null,
     article_id int8 references habr_app.article(id) not null,
     primary key (tag_id, article_id)
-)
+);
 
+create table habr_app.favorite_author
+(
+    user_id int8 references habr_app."user"(id) not null,
+    author_id int8 references habr_app."user"(id) not null,
+    primary key (user_id, author_id)
+);
 
+create table habr_app.favorite_hub
+(
+    user_id int8 references habr_app."user"(id) not null,
+    hub_id int4 references habr_app.hub(id) not null,
+    primary key (user_id, hub_id)
+);
 
+create table habr_app.favorite_company
+(
+    user_id int8 references habr_app."user"(id) not null,
+    company_id int8 references habr_app.company(id) not null,
+    primary key (user_id, company_id)
+);
 
 
 

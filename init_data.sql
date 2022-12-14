@@ -59,3 +59,20 @@ insert into habr_app.user_article_tags_to_articles(tag_id, article_id)
 values (1, 1),
        (2, 3),
        (3, 2);
+
+insert into habr_app.favorite_author(user_id, author_id)
+values (1, 2),
+       (1, 3),
+       (3, 2);
+
+insert into habr_app.favorite_company (user_id, company_id)
+values (1, 1),
+       (1, 2),
+       (3, 1);
+
+insert into habr_app.favorite_hub (user_id, hub_id)
+values (1, 1),
+       (1, 2),
+       (2, 1),
+       (3, 2);
+

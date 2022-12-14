@@ -169,5 +169,13 @@ create table habr_app.favorite_company
     primary key (user_id, company_id)
 );
 
+create table habr_app.bookmark
+(
+    user_id int8 references habr_app."user"(id) not null,
+    article_id int8 references habr_app.article(id) not null,
+    path text  default '/' not null,
+    primary key (user_id, article_id)
+)
+
 
 

@@ -76,3 +76,6 @@ values (1, 1),
        (2, 1),
        (3, 2);
 
+insert into habr_app.bookmark (user_id, article_id, path)
+values (1, 3, '/dev'),
+       (3, 3, '/python/dev');

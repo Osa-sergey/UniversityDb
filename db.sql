@@ -33,3 +33,42 @@ comment on column habr_app."user".carma is 'user carma';
 
 comment on column habr_app."user".rating is 'user rating';
 
+create table habr_app.company_category
+(
+    id serial
+        constraint company_category_pk primary key,
+    name varchar(60) not null
+        constraint company_category_name_u
+            unique,
+    description text not null
+);
+
+create table habr_app.company
+(
+    id bigserial
+        constraint company_pk primary key,
+    name varchar(60) not null
+        constraint company_name_u
+            unique,
+    description text not null,
+    web_link varchar(60) not null,
+    register_date date default now() not null,
+    create_date date not null,
+    employee_number varchar(30) not null,
+    location varchar(60) not null,
+    img_src varchar(60),
+    ambassador int8 references habr_app."user"(id) not null,
+    rating float4 default 0.0 check ( rating >= 0.0 )
+);
+
+create table habr_app.companies_to_categories
+(
+    company_id int8 references habr_app.company(id) not null,
+    category_id int4 references habr_app.company_category(id) not null,
+    primary key (company_id, category_id)
+);
+
+
+
+
+

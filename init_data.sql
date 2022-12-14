@@ -49,3 +49,13 @@ values ('front', 3),
 insert into habr_app.hubs_to_articles(hub_id, article_id)
 values (1, 2),
        (2, 3);
+
+insert into habr_app.user_article_tag("name", user_id, description)
+values ('test_label', 1, null),
+       ('Интересное', 1, 'Что будет полезно изучить в дальнейшем'),
+       ('Где поработать', 2, null);
+
+insert into habr_app.user_article_tags_to_articles(tag_id, article_id)
+values (1, 1),
+       (2, 3),
+       (3, 2);

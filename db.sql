@@ -129,7 +129,26 @@ create table habr_app.hubs_to_articles
     hub_id int4 references habr_app.hub(id) not null,
     article_id int8 references habr_app.article(id) not null,
     primary key (hub_id, article_id)
+);
+
+create table habr_app.user_article_tag
+(
+    id bigserial
+        constraint user_article_tag_pk primary key,
+    "name" varchar(90) not null,
+    user_id int8 references habr_app."user"(id) not null,
+    description text,
+    UNIQUE ("name", user_id)
+);
+
+create table habr_app.user_article_tags_to_articles
+(
+    tag_id int8 references habr_app.user_article_tag(id) not null,
+    article_id int8 references habr_app.article(id) not null,
+    primary key (tag_id, article_id)
 )
+
+
 
 
 

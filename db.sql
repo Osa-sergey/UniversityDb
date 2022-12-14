@@ -92,10 +92,44 @@ create table habr_app.habr_flows_to_hubs
     flow_id varchar(60) references habr_app.habr_flow(name) not null,
     hub_id int4 references habr_app.hub(id) not null,
     primary key (flow_id, hub_id)
+);
+
+create table habr_app.habr_article_tag
+(
+    "name" varchar(30)
+        constraint habr_article_tag_pk primary key
+);
+
+create table habr_app.article
+(
+    id bigserial
+        constraint article_pk primary key,
+    title varchar(200) not null,
+    "content" text not null,
+    publish_timestamp timestamptz default now() not null,
+    author int8 references habr_app."user"(id) not null,
+    company int8 references habr_app.company(id),
+    voices_up int default 0 not null,
+    voices_down int default 0 not null,
+    views int default 0 not null,
+    bookmarks int default 0 not null,
+    "comments" int default 0 not null,
+    title_img_src varchar(60)
+);
+
+create table habr_app.habr_article_tags_to_articles
+(
+    tag_id varchar(30) references habr_app.habr_article_tag(name) not null,
+    article_id int8 references habr_app.article(id) not null,
+    primary key (tag_id, article_id)
+);
+
+create table habr_app.hubs_to_articles
+(
+    hub_id int4 references habr_app.hub(id) not null,
+    article_id int8 references habr_app.article(id) not null,
+    primary key (hub_id, article_id)
 )
-
-
-
 
 
 

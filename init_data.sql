@@ -28,3 +28,24 @@ values ('Работа', 'Все, что нужно, чтобы найти раб
 insert into habr_app.habr_flows_to_hubs(flow_id, hub_id)
 values ('Работа', 1),
        ('Разработка', 2);
+
+insert into habr_app.habr_article_tag(name)
+values ('front'),
+       ('back'),
+       ('vacancy'),
+       ('python');
+
+insert into habr_app.article(title, content, author, company)
+values ('test1', 'test1', 1, null),
+       ('Вакансия', 'Описание вакансии', 3, 2),
+       ('Урок по python', 'мало кода', 2, 1);
+
+insert into habr_app.habr_article_tags_to_articles(tag_id, article_id)
+values ('front', 3),
+       ('back', 3),
+       ('python', 3),
+       ('vacancy', 2);
+
+insert into habr_app.hubs_to_articles(hub_id, article_id)
+values (1, 2),
+       (2, 3);

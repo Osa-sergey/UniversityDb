@@ -68,6 +68,18 @@ create table habr_app.companies_to_categories
     primary key (company_id, category_id)
 );
 
+create table habr_app.hub
+(
+    id serial
+        constraint hub_pk primary key,
+    name varchar(60) not null
+        constraint hub_name_u
+            unique,
+    description text not null,
+    img_src varchar(60),
+    rating float4 default 0.0 check ( rating >= 0.0 )
+)
+
 
 
 

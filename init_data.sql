@@ -16,3 +16,7 @@ values ('Ютуб канал ProIT', 'Канал посвещен туторил
 insert into habr_app.companies_to_categories(company_id, category_id)
 values (1, 1),
        (2, 2);
+
+insert into habr_app.hub(name, description)
+values ('Карьера в IT', 'Работать, работать, работать, ...'),
+       ('Dev in IT', 'Frontend and backend development');

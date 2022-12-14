@@ -20,3 +20,11 @@ values (1, 1),
 insert into habr_app.hub(name, description)
 values ('Карьера в IT', 'Работать, работать, работать, ...'),
        ('Dev in IT', 'Frontend and backend development');
+
+insert into habr_app.habr_flow(name, description)
+values ('Работа', 'Все, что нужно, чтобы найти работу'),
+       ('Разработка', 'Все, что нужно для разработки');
+
+insert into habr_app.habr_flows_to_hubs(flow_id, hub_id)
+values ('Работа', 1),
+       ('Разработка', 2);

@@ -78,7 +78,23 @@ create table habr_app.hub
     description text not null,
     img_src varchar(60),
     rating float4 default 0.0 check ( rating >= 0.0 )
+);
+
+create table habr_app.habr_flow
+(
+    name varchar(60)
+        constraint habr_flow_pk primary key,
+    description text not null
+);
+
+create table habr_app.habr_flows_to_hubs
+(
+    flow_id varchar(60) references habr_app.habr_flow(name) not null,
+    hub_id int4 references habr_app.hub(id) not null,
+    primary key (flow_id, hub_id)
 )
+
+
 
 
 

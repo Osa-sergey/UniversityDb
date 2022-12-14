@@ -79,3 +79,8 @@ values (1, 1),
 insert into habr_app.bookmark (user_id, article_id, path)
 values (1, 3, '/dev'),
        (3, 3, '/python/dev');
+
+insert into habr_app.note (user_id, article_id, noted_text, note)
+values (1, 3, '', 'Крутая статья для базового ознакомления с языком'),
+       (3, 3, 'Использование значений по умолчанию', 'Хороший механизм, однако надо минимизировать' ||
+                                                     ' кол-во входных переменных');

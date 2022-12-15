@@ -186,5 +186,13 @@ create table habr_app.note
     primary key(user_id, article_id, noted_text)
 );
 
+create table habr_app.pin
+(
+    user_id int8 references habr_app."user"(id) not null,
+    article_id int8 references habr_app.article(id) not null,
+    pin_timestamp timestamptz default now() not null,
+    primary key (user_id, article_id)
+)
+
 
 

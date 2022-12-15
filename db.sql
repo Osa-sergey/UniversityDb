@@ -114,6 +114,7 @@ create table habr_app.article
     views int default 0 not null,
     bookmarks int default 0 not null,
     "comments" int default 0 not null,
+    is_posted bool default false not null,
     title_img_src varchar(60)
 );
 
@@ -130,6 +131,20 @@ create table habr_app.hubs_to_articles
     article_id int8 references habr_app.article(id) not null,
     primary key (hub_id, article_id)
 );
+
+create or replace function not_empty_hubs() returns trigger as $not_empty_hubs$
+    begin
+        if not exists(select 1 from habr_app.hubs_to_articles
+            where article_id = new.id)
+        then
+            raise exception 'empty hubs';
+        end if;
+        return new;
+    end;
+$not_empty_hubs$ language plpgsql;
+
+create or replace trigger not_empty_hubs before update of is_posted on habr_app.article
+    for EACH row execute procedure not_empty_hubs();
 
 create table habr_app.user_article_tag
 (

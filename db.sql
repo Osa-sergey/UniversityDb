@@ -220,11 +220,23 @@ create table habr_app.delayed
 create table habr_app.saved_search
 (
     user_id int8 references habr_app."user"(id) not null,
-    "name" text default '' not null,
+    "name" text not null,
     "search" text not null,
     save_search_timestamp timestamptz default now() not null,
     primary key (user_id, "search")
 );
+
+create or replace function set_name_to_saved_search() returns trigger as $set_name_to_saved_search$
+    begin
+        if new.name is null then
+            new.name = 'Search: ' || new.search;
+        end if;
+        return new;
+    end;
+$set_name_to_saved_search$ language plpgsql;
+
+create or replace trigger set_name_to_saved_search before insert or update on habr_app.saved_search
+    for each row execute procedure set_name_to_saved_search();
 
 create table habr_app.search
 (

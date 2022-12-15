@@ -192,7 +192,14 @@ create table habr_app.pin
     article_id int8 references habr_app.article(id) not null,
     pin_timestamp timestamptz default now() not null,
     primary key (user_id, article_id)
-)
+);
 
+create table habr_app.delayed
+(
+    user_id int8 references habr_app."user"(id) not null,
+    article_id int8 references habr_app.article(id) not null,
+    delay_timestamp timestamptz default now() not null,
+    primary key (user_id, article_id)
+)
 
 

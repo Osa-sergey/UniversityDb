@@ -87,3 +87,7 @@ values (1, 3, '', 'Крутая статья для базового ознак�
 insert into habr_app.pin (user_id, article_id)
 values (1, 2),
        (3, 3);
+
+insert into habr_app.delayed(user_id, article_id)
+values (1, 3),
+       (3, 2);

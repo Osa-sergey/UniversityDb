@@ -94,3 +94,8 @@ values (1, 3),
 
 insert into habr_app.saved_search (user_id, search)
 values (1, 'hubs: {"Карьера в IT","Dev in IT"}authors: {@hike_man, @dev_podcast}');
+
+insert into habr_app.search (user_id, search)
+values (1, 'hubs: {"Карьера в IT","Dev in IT"}'),
+       (1, 'hubs: {"Dev in IT"}'),
+       (2, 'authors: {@hike_man, @dev_podcast}');

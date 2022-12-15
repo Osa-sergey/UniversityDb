@@ -210,4 +210,11 @@ create table habr_app.saved_search
     primary key (user_id, "search")
 );
 
+create table habr_app.search
+(
+    user_id int8 references habr_app."user"(id) not null,
+    "search" text not null,
+    search_timestamp timestamptz default now() not null,
+    primary key (user_id, "search")
+);
 

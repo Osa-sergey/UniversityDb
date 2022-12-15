@@ -205,6 +205,7 @@ create table habr_app.delayed
 create table habr_app.saved_search
 (
     user_id int8 references habr_app."user"(id) not null,
+    "name" text default '' not null,
     "search" text not null,
     save_search_timestamp timestamptz default now() not null,
     primary key (user_id, "search")

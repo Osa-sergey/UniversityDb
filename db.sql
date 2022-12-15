@@ -240,9 +240,26 @@ create or replace trigger set_name_to_saved_search before insert or update on ha
 
 create table habr_app.search
 (
+    id bigserial constraint search_pk primary key,
     user_id int8 references habr_app."user"(id) not null,
     "search" text not null,
     search_timestamp timestamptz default now() not null,
-    primary key (user_id, "search")
+    unique (user_id, "search")
 );
 
+create or replace function extra_searches() returns trigger as $extra_searches$
+    begin
+        with sorted_searches as (
+            select id from habr_app.search
+            where user_id = new.user_id
+            order by search_timestamp desc
+            offset 3
+        )
+        delete from habr_app.search
+        where id in (select * from sorted_searches);
+        return new;
+    end;
+$extra_searches$ language plpgsql;
+
+create or replace trigger extra_searches after insert or update of user_id on habr_app.search
+    for each row execute procedure extra_searches()

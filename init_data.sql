@@ -91,3 +91,6 @@ values (1, 2),
 insert into habr_app.delayed(user_id, article_id)
 values (1, 3),
        (3, 2);
+
+insert into habr_app.saved_search (user_id, search)
+values (1, 'hubs: {"Карьера в IT","Dev in IT"}authors: {@hike_man, @dev_podcast}');

@@ -72,4 +72,12 @@ select co.name as company_name, h.name as hub_name, count(*) as article_number f
     join habr_app.hubs_to_articles hta on a.id = hta.article_id
     join habr_app.hub h on hta.hub_id = h.id
     GROUP BY co.name, h.name
+    having count(*) > 1
     ORDER BY co.name, h.name;
+
+select c.name as company_name, h.name as hub_name, count(*)
+from  habr_app.company c, habr_app.article a, habr_app.hubs_to_articles hta , habr_app.hub h
+where c.id = a.id and a.id = hta.article_id and h.id = hta.hub_id
+GROUP BY c.name, h.name
+having count(*) > 1
+ORDER BY c.name, h.name;

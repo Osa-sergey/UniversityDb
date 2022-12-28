@@ -1,0 +1,229 @@
+// Создание игроков
+CREATE (p:PLAYER:OUTER {name: "Igor Cheremisov", age: 35})
+CREATE (p:PLAYER:OUTER {name: "Ivan Cupricov", age: 23})
+CREATE (p:PLAYER:OUTER {name: "Mia Nonce", age: 26})
+CREATE (p:PLAYER:OUTER {name: "Anna Kutenina", age: 26})
+
+CREATE (p:PLAYER:STUDENT {name: "Dmitry Puchkov", age: 19})
+CREATE (p:PLAYER:STUDENT {name: "Nick Kuren", age: 21})
+CREATE (p:PLAYER:STUDENT {name: "Sergei Djurbei", age: 22})
+CREATE (p:PLAYER:STUDENT {name: "Daniil Lsichin", age: 20})
+CREATE (p:PLAYER:STUDENT {name: "Ivan Bolderev", age: 22})
+CREATE (p:PLAYER:STUDENT {name: "Ilya Morozov", age: 25})
+
+// Создание организаторов игр
+CREATE (p:ORGANIZER:STUDENT {name: "Sergei Ovchinnikov", age: 22})
+
+CREATE (p:ORGANIZER:OUTER {name: "Nick Byalobjesky", age: 25})
+
+// Создание игр
+CREATE (g:GAME:MAFI {name: "Bang", players_min: 4, players_max: 7, game_time: 30})
+
+CREATE (g:GAME:EURO {name: "Alchemists", players_min: 2, players_max: 4, game_time: 120})
+CREATE (g:GAME:EURO {name: "Ticket to ride", players_min: 2, players_max: 5, game_time: 45})
+
+CREATE (g:GAME:ECONOMY {name: "Industry", players_min: 1, players_max: 5, game_time: 45})
+CREATE (g:GAME:ECONOMY {name: "Catan", players_min: 3, players_max: 4, game_time: 67})
+
+CREATE (g:GAME:DUEL {name: "Explosive cats", players_min: 2, players_max: 5, game_time: 15})
+CREATE (g:GAME:DUEL {name: "Munchkin", players_min: 3, players_max: 6, game_time: 30})
+CREATE (g:GAME:DUEL {name: "Bunker", players_min: 4, players_max: 16, game_time: 45})
+
+// Создание организаций к которым принадлежат игроки
+CREATE (c:COMMUNITY {name: "Турклуб" })
+CREATE (c:COMMUNITY {name: "КПИ" })
+
+// Создание событий на которые собирались игроки
+CREATE (e:EVENT:OPEN {name: "Новогодние посиделки", date: date("2022-12-27") })
+CREATE (e:EVENT:OPEN {name: "День рождения Никиты", date: date("2022-10-16") })
+
+CREATE (e:EVENT:CLOSE {name: "КПИ board games fest", date: date("2022-11-14") })
+
+
+// К какой организации принадлежит человек
+MATCH (m:PLAYER:OUTER {name: "Igor Cheremisov"}),
+(c:COMMUNITY {name: "Турклуб"})
+CREATE (m) - [:MEMBER_OF {type: "instructor"}] -> (c)
+
+MATCH (m:PLAYER:OUTER {name: "Ivan Cupricov"}),
+(c:COMMUNITY {name: "Турклуб"})
+CREATE (m) - [:MEMBER_OF {type: "member"}] -> (c)
+
+MATCH (m:PLAYER:OUTER {name: "Mia Nonce"}),
+(c:COMMUNITY {name: "Турклуб"})
+CREATE (m) - [:MEMBER_OF {type: "member"}] -> (c)
+
+MATCH (m:PLAYER:OUTER {name: "Anna Kutenina"}),
+(c:COMMUNITY {name: "Турклуб"})
+CREATE (m) - [:MEMBER_OF {type: "member"}] -> (c)
+
+MATCH (m:ORGANIZER:STUDENT {name: "Sergei Ovchinnikov"}),
+(c:COMMUNITY {name: "Турклуб"})
+CREATE (m) - [:MEMBER_OF {type: "head"}] -> (c)
+
+MATCH (m:ORGANIZER:OUTER {name: "Nick Byalobjesky"}),
+(c:COMMUNITY {name: "Турклуб"})
+CREATE (m) - [:MEMBER_OF {type: "member"}] -> (c)
+
+MATCH (m:PLAYER:STUDENT {name: "Ilya Morozov"}),
+(c:COMMUNITY {name: "КПИ"})
+CREATE (m) - [:MEMBER_OF {type: "head"}] -> (c)
+
+MATCH (m:PLAYER:STUDENT {name: "Dmitry Puchkov"}),
+(c:COMMUNITY {name: "КПИ"})
+CREATE (m) - [:MEMBER_OF {type: "member"}] -> (c)
+
+MATCH (m:PLAYER:STUDENT {name: "Nick Kuren"}),
+(c:COMMUNITY {name: "КПИ"})
+CREATE (m) - [:MEMBER_OF {type: "member"}] -> (c)
+
+//Связь организаторов и событий
+MATCH (m:ORGANIZER:STUDENT {name: "Sergei Ovchinnikov"}),
+(e:EVENT {name: "Новогодние посиделки"})
+CREATE (m) - [:ORGANIZE] -> (e)
+
+MATCH (m:ORGANIZER:OUTER {name: "Nick Byalobjesky"}),
+(e:EVENT {name: "День рождения Никиты"})
+CREATE (m) - [:ORGANIZE] -> (e)
+
+MATCH (m:ORGANIZER:OUTER {name: "Nick Byalobjesky"}),
+(e:EVENT {name: "КПИ board games fest"})
+CREATE (m) - [:ORGANIZE] -> (e)
+
+//Связь участников и событий
+MATCH (p:ORGANIZER:OUTER {name: "Nick Byalobjesky"}),
+(e:EVENT {name: "КПИ board games fest"})
+CREATE (p) - [:PARTICIPANT] -> (e)
+
+MATCH (p:ORGANIZER:OUTER {name: "Nick Byalobjesky"}),
+(e:EVENT {name: "День рождения Никиты"})
+CREATE (p) - [:PARTICIPANT] -> (e)
+
+MATCH (p:ORGANIZER:STUDENT {name: "Sergei Ovchinnikov"}),
+(e:EVENT {name: "Новогодние посиделки"})
+CREATE (p) - [:PARTICIPANT] -> (e)
+
+MATCH (p:PLAYER:OUTER {name: "Igor Cheremisov"}),
+(e:EVENT {name: "Новогодние посиделки"})
+CREATE (p) - [:PARTICIPANT] -> (e)
+
+MATCH (p:PLAYER:OUTER {name: "Ivan Cupricov"}),
+(e:EVENT {name: "Новогодние посиделки"})
+CREATE (p) - [:PARTICIPANT] -> (e)
+
+MATCH (p:PLAYER:OUTER {name: "Mia Nonce"}),
+(e:EVENT {name: "Новогодние посиделки"})
+CREATE (p) - [:PARTICIPANT] -> (e)
+
+MATCH (p:PLAYER:OUTER {name: "Anna Kutenina"}),
+(e:EVENT {name: "Новогодние посиделки"})
+CREATE (p) - [:PARTICIPANT] -> (e)
+
+MATCH (p:PLAYER:STUDENT {name: "Ivan Bolderev"}),
+(e:EVENT {name: "Новогодние посиделки"})
+CREATE (p) - [:PARTICIPANT] -> (e)
+
+MATCH (p:PLAYER:STUDENT {name: "Sergei Djurbei"}),
+(e:EVENT {name: "Новогодние посиделки"})
+CREATE (p) - [:PARTICIPANT] -> (e)
+
+MATCH (p:PLAYER:OUTER {name: "Igor Cheremisov"}),
+(e:EVENT {name: "День рождения Никиты"})
+CREATE (p) - [:PARTICIPANT] -> (e)
+
+MATCH (p:PLAYER:OUTER {name: "Ivan Cupricov"}),
+(e:EVENT {name: "День рождения Никиты"})
+CREATE (p) - [:PARTICIPANT] -> (e)
+
+MATCH (p:PLAYER:OUTER {name: "Anna Kutenina"}),
+(e:EVENT {name: "День рождения Никиты"})
+CREATE (p) - [:PARTICIPANT] -> (e)
+
+MATCH (p:PLAYER:STUDENT {name: "Ilya Morozov"}),
+(e:EVENT {name: "День рождения Никиты"})
+CREATE (p) - [:PARTICIPANT] -> (e)
+
+MATCH (p:PLAYER:STUDENT {name: "Ilya Morozov"}),
+(e:EVENT {name: "КПИ board games fest"})
+CREATE (p) - [:PARTICIPANT] -> (e)
+
+MATCH (p:PLAYER:STUDENT {name: "Dmitry Puchkov"}),
+(e:EVENT {name: "КПИ board games fest"})
+CREATE (p) - [:PARTICIPANT] -> (e)
+
+MATCH (p:PLAYER:STUDENT {name: "Nick Kuren"}),
+(e:EVENT {name: "КПИ board games fest"})
+CREATE (p) - [:PARTICIPANT] -> (e)
+
+MATCH (p:ORGANIZER:STUDENT {name: "Sergei Ovchinnikov"}),
+(e:EVENT {name: "День рождения Никиты"})
+CREATE (p) - [:PARTICIPANT] -> (e)
+
+//Стало понятно, что организатор может быть просто участником события, так что
+// добавим ему тег игрока для удобства дальнейших подсчетов
+
+MATCH (o:ORGANIZER)
+SET o:PLAYER
+RETURN o
+
+//Мы ошиблись в должности Никиты Бялобжеского в турклубе, нужно исправить отношение
+MATCH (o {name: "Nick Byalobjesky"}) -
+[rel:MEMBER_OF] -> (:COMMUNITY)
+SET rel.type = "ambassador"
+
+//Выяснилось, что мы по ошибке внесли в список Даниила Лисихина, нужно его удалить
+//будем использовать удаление по id, если бы были какие-то связи у данного игрока, то нужно
+//использовать DETACH DELETE
+MATCH (s:PLAYER:STUDENT)
+WHERE ID(s) = 2
+DELETE s
+
+//Выяснилось, что Иван Болдырев не принимал участия в новогодних посиделках, нужно удалить
+// соответствующее отношение
+MATCH (s:PLAYER:STUDENT {name: "Ivan Bolderev"}) -
+[rel:PARTICIPANT] -> (:EVENT)
+DELETE rel
+
+//Добавим все дуэльные игры ко всем эвентам
+MATCH (e:EVENT),
+(g:DUEL)
+CREATE (g) - [:BE_PRESENT] -> (e)
+
+MATCH (e:EVENT {name: "КПИ board games fest"}),
+(g:EURO)
+CREATE (g) - [:BE_PRESENT] -> (e)
+
+MATCH (e:EVENT {name: "Новогодние посиделки"}),
+(g:MAFI)
+CREATE (g) - [:BE_PRESENT] -> (e)
+
+MATCH (e:EVENT {name: "День рождения Никиты"}),
+(g {name:"Industry"})
+CREATE (g) - [:BE_PRESENT] -> (e)
+
+// интересно посмотреть на всех участников настолок и их принадлежность к сообществу
+MATCH (p:PLAYER) - [:MEMBER_OF] -> (c:COMMUNITY)
+RETURN p, c
+
+// хотим узнать имена руководителей сообществ
+MATCH (p:PLAYER) - [:MEMBER_OF {type: "head"}] -> (c:COMMUNITY)
+RETURN c.name, p.name
+
+// хотим подсчитать количество организаторов в каждом сообществе по их типам
+MATCH (p:ORGANIZER) - [:MEMBER_OF] -> (c:COMMUNITY)
+RETURN c.name AS community_name,labels(p) AS labels, COUNT(p) AS organizer_number
+
+// хотим получить все события где организатором были не студенты в хронологическом порядке
+MATCH (p:ORGANIZER:OUTER) - [:ORGANIZE] -> (e:EVENT)
+RETURN p.name AS org_name, e.name AS event_name, e.date AS date
+ORDER BY date
+
+// получим всех игроков, пришедших на мероприятия
+MATCH (p:PLAYER) - [:PARTICIPANT] -> (e:EVENT)
+RETURN p, e
+
+//Давайте найдем кратчайший путь для знакомства меня со всеми
+//студентами, кто играет в настольные игры (у кого есть :STUDENT)
+MATCH (from:PLAYER {name:'Sergei Ovchinnikov'}), (to:STUDENT)
+CALL apoc.algo.dijkstra(from, to, 'PARTICIPANT', 'd') yield path as path, weight as weight
+RETURN path, weight

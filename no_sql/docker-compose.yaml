@@ -1,0 +1,23 @@
+version: "3.9"
+
+services:
+    neo4j:
+        restart: always
+        image: neo4j:4.4.16-community
+        container_name: neo4j
+        ports:
+            - "7474:7474"
+            - "7687:7687"
+        volumes:
+            - neo4j_data:/data
+            - neo4j_conf:/var/lib/neo4j/conf
+            - neo4j_logs:/logs
+            - neo4j_import:/var/lib/neo4j/import
+            - ./plugins:/plugins
+        environment:
+            - NEO4J_AUTH=neo4j/1234
+volumes:
+    neo4j_data:
+    neo4j_conf:
+    neo4j_logs:
+    neo4j_import:
